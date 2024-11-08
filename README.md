@@ -2,19 +2,9 @@
 
 Advanced challenge for ICP AI HackerHouse, held in Lisbon from 9-10th November 2024.
 
-
-
-
-
-
-
-
-
-
 # Copy of ICP Hello World Rust
 
 This repository provides a quick and easy way to start developing a canister smart contract for the [Internet Computer](https://internetcomputer.org/) in Rust.
-The repository can be used with macOS, Windows or Linux.
 
 ## Getting Started
 
@@ -32,21 +22,7 @@ For interactive development of the frontend canister, you can also start a node 
 You can find your canister's frontend running under http://localhost:8080.
 
 If you make changes to the backend canister, remember to call `dfx deploy` first; it suffices to reload the frontend canister's webpage to reflect the changes you've made.
-If your environment was restarted or has been inactive over some time, you might need to run `dfx start --background` before running `dfx deploy`.
-
-## Testing your Project
-
-To run the [integration tests](/src/icp_hello_world_rust_backend/tests/integration_tests.rs#L18) for your backend canister, first run `dfx build` to build the canister Wasm, and then `cargo test --test integration_tests`.
-If the canisters have not yet been created, run `dfx canister create --all` before `dfx build`.
-
-## Local Development
-
-If you prefer to develop locally, first install [Docker](https://www.docker.com/get-started/) and [VS Code](https://code.visualstudio.com/) and start them on your machine.
-Next, click the following button to open the dev container locally:
-
-[![Open locally in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/dfinity/icp-hello-world-rust)
-
-If prompted, install the required/recommended plugins for VS Code.
+If your environment was restarted or has been inactive over some time, you might need to run `dfx start` before running `dfx deploy`.
 
 ## Documentation and Guides
 
@@ -92,20 +68,28 @@ This section guides you through the initial setup of the necessary tools and env
 
 First, ensure you have Rust installed. We will then set the default toolchain to stable and add the WebAssembly target.
 
-1. Install "wasm-opt" and wait (average time ~22 minutes)
+1. Install "wasm-opt" and wait (average time ~12 minutes)
    ```bash
    cargo install wasm-opt
    ```
 2. Deploy single_call canister
+
    ```bash
-   cd src/rubriks/single_call
+   # In one tab
+   dfx start
+
+   # In another tab
    dfx deploy
    ```
+
 3. Upload model
    ```bash
-   ic-file-uploader single_call_backend upload_model_bytes_chunks ../../../lib/models/gpt2_with_kv.onnx
-   dfx canister call single_call_backend upload_wasm_ref_cell_to_stable
-   dfx canister call single_call_backend setup_model
+   ic-file-uploader icp_gpt2 upload_model_bytes_chunks src/icp_gpt2/lib/models/gpt2_with_kv.onnx
+   dfx canister call icp_gpt2 setup_model
+   ```
+4. Call your 100% on-chain model
+   ```bash
+   dfx canister call icp_gpt2 model_inference '(14, vec {1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12})'
    ```
 
 ### Python and PyTorch Setup
