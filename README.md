@@ -2,22 +2,23 @@
 
 Advanced challenge for ICP AI HackerHouse, held in Lisbon from 9-10th November 2024.
 
-# ICP Hello World Rust
+
+
+
+
+
+
+
+
+
+# Copy of ICP Hello World Rust
 
 This repository provides a quick and easy way to start developing a canister smart contract for the [Internet Computer](https://internetcomputer.org/) in Rust.
 The repository can be used with macOS, Windows or Linux.
 
 ## Getting Started
 
-To get started with Gitpod, click the button below:
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/dfinity/icp-hello-world-rust)
-
-If you rather want to use GitHub Codespaces, click this button instead:
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/dfinity/icp-hello-world-rust?quickstart=1)
-
-If you prefer running VS Code locally and not in the browser, click "Codespaces: ..." or "Gitpod" in the bottom left corner and select "Open in VS Code" in the menu that appears.
+If you prefer running VS Code locally and not in the browser, click "Codespaces: ..." in the bottom left corner and select "Open in VS Code" in the menu that appears.
 If prompted, proceed by installing the recommended plugins for VS Code.
 
 ### Running your Project
