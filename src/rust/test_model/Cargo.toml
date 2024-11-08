@@ -1,0 +1,15 @@
+[package]
+name = "test_model"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[build-dependencies]
+
+[dependencies]
+tract-onnx = { git = "https://github.com/sonos/tract", rev = "2a2914ac29390cc08963301c9f3d437b52dd321a" }
+anyhow = "1.0"
+ndarray-npy = "0.8.1"
+ndarray = "0.15.6"
