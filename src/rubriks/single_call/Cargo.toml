@@ -1,5 +1,0 @@
-[workspace]
-members = [
-    "src/single_call_backend"
-]
-resolver = "2"

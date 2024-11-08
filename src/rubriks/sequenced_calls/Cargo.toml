@@ -1,5 +1,0 @@
-[workspace]
-members = [
-    "src/sequenced_calls_backend"
-]
-resolver = "2"

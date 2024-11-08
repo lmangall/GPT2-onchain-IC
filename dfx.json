@@ -6,9 +6,7 @@
       "type": "rust"
     },
     "icp_hello_world_rust_frontend": {
-      "dependencies": [
-        "icp_hello_world_rust_backend"
-      ],
+      "dependencies": ["icp_hello_world_rust_backend"],
       "frontend": {
         "entrypoint": "src/icp_hello_world_rust_frontend/src/index.html"
       },
@@ -17,6 +15,15 @@
         "dist/icp_hello_world_rust_frontend/"
       ],
       "type": "assets"
+    },
+    "icp_gpt2": {
+      "candid": "src/icp_gpt2/icp_gpt2.did",
+      "package": "icp_gpt2",
+      "type": "custom",
+      "wasm": "./target/wasm32-wasi/release/icp_gpt2-ic.wasm",
+      "build": ["bash src/icp_gpt2/build.sh"],
+      "shrink": true,
+      "gzip": true
     }
   },
   "defaults": {
