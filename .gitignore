@@ -34,3 +34,4 @@ dist/
 
 # Generated Models
 **/*.onnx
+!src/internet_computer/rubriks/single_call/models/gpt2_with_kv.onnx
