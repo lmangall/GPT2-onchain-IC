@@ -99,6 +99,7 @@ First, ensure you have Rust installed. We will then set the default toolchain to
 3. Add the WebAssembly target:
    ```bash
    rustup target add wasm32-unknown-unknown
+   rustup target add wasm32-wasi
    ```
 4. Add Cargo's bin directory to your PATH:
    ```bash
