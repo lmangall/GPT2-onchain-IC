@@ -15,8 +15,8 @@
       "onAutoForward": "openBrowser"
     }
   },
-  "onCreateCommand": "nohup bash -c 'scripts/setup.sh &'",
-  "postCreateCommand": "",
+  "onCreateCommand": "nohup bash -c 'scripts/createSetup.sh &'",
+  "postCreateCommand": "nohup bash -c 'scripts/postCreateSetup.sh &'",
   "postAttachCommand": "([ -f nohup.out ] && (cat nohup.out && rm nohup.out)) || exit 0",
   "customizations": {
     "vscode": {

@@ -7,21 +7,25 @@ Once the setup is complete, you can proceed with the following steps to build, d
 1. **Setup Cargo**: Ensure you have Cargo installed and set up. If not, follow the instructions on the [Rust website](https://www.rust-lang.org/tools/install) to install Rust and Cargo.
 
 2. Install the necessary Cargo package:
+
    ```bash
    cargo install ic-file-uploader
    ```
 
 3. Start the Internet Computer network locally in the background:
+
    ```bash
    dfx start --background
    ```
 
 4. Deploy your project using `dfx`:
+
    ```bash
    dfx deploy
    ```
 
 5. Use the installed Cargo package to run specific tasks, such as uploading model chunks. Replace the demo model `gpt2_embedding.onnx` with your actual model file names:
+
    ```bash
    ic-file-uploader single_call_backend upload_model_bytes_chunks ../../../python/onnx_model/gpt2_embedding.onnx
    ```
@@ -30,7 +34,7 @@ Once the setup is complete, you can proceed with the following steps to build, d
    ```bash
    dfx canister call single_call_backend setup_model
    ```
-   
+
 ## Demo Instructions
 
 These instructions guide you through running a demonstration of our application, which illustrates using the Python Transformers library, executing a Python script for model partitioning, loading the model into a canister, and interacting with the backend Canister API.
@@ -79,7 +83,6 @@ These instructions guide you through running a demonstration of our application,
   python3 python/GPT2_max_partition_model_pool.py
   ```
 
-
 ### Step 5: Build and Deploy
 
 1. Start the Internet Computer network locally in the background:
@@ -96,6 +99,7 @@ These instructions guide you through running a demonstration of our application,
 1. **Model Upload**: Navigate to the canister scripts directory and perform the following:
 
    - For local deployment:
+
      ```bash
         ic-file-uploader single_call_backend upload_model_bytes_chunks ../../../python/onnx_model/gpt2_embedding.onnx
      ```
@@ -103,20 +107,27 @@ These instructions guide you through running a demonstration of our application,
    - For Internet Computer mainnet deployment:
      ```bash
         ic-file-uploader single_call_backend upload_model_bytes_chunks ../../../python/onnx_model/gpt2_embedding.onnx --network ic
-    ```
+     ```
+
+   ```
 
    - If an upload is interrupted, query the last successful upload with:
+   ```
+
 ```plaintext
         dfx call canister single_call_backend upload_wasm_ref_cell_length
 ```
+
      And resume uploading using the result:
+
 ```bash
         ic-file-uploader single_call_backend upload_model_bytes_chunks ../../../python/onnx_model/gpt2_embedding.onnx --offset <result number>
 ```
 
 2. **Model Storage**: This will store the model to stable memory so that it can be efficiently loaded after redeployment:
+
    ```plaintext
-    dfx canister call single_call_backend upload_wasm_ref_cell_to_stable 
+    dfx canister call single_call_backend upload_wasm_ref_cell_to_stable
    ```
 
 3. **Model Preparation**: Follow the commands to prepare the model for use:

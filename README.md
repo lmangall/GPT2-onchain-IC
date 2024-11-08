@@ -91,19 +91,20 @@ This section guides you through the initial setup of the necessary tools and env
 
 First, ensure you have Rust installed. We will then set the default toolchain to stable and add the WebAssembly target.
 
-1. Install Rust and Cargo (if not already installed): Visit [Rust's installation page](https://www.rust-lang.org/tools/install).
-2. Set the default toolchain to stable:
+1. Install "wasm-opt" and wait (average time ~22 minutes)
    ```bash
-   rustup default stable
+   cargo install wasm-opt
    ```
-3. Add the WebAssembly target:
+2. Deploy single_call canister
    ```bash
-   rustup target add wasm32-unknown-unknown
-   rustup target add wasm32-wasi
+   cd src/rubriks/single_call
+   dfx deploy
    ```
-4. Add Cargo's bin directory to your PATH:
+3. Upload model
    ```bash
-   export PATH="$PATH:~/.cargo/bin"
+   ic-file-uploader single_call_backend upload_model_bytes_chunks ../../../lib/models/gpt2_with_kv.onnx
+   dfx canister call single_call_backend upload_wasm_ref_cell_to_stable
+   dfx canister call single_call_backend setup_model
    ```
 
 ### Python and PyTorch Setup
