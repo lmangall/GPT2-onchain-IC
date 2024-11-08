@@ -14,7 +14,13 @@
 src/declarations/
 
 # rust
-target/
+**/target/
+**/*.rs.bk
+**/*.pyc
+**/*.o
+**/*.a
+**/*.swp
+Rust/libonnxruntime/*
 
 # frontend code
 node_modules/
@@ -24,4 +30,7 @@ dist/
 .env
 
 # PocketIC
-src/icp_hello_world_rust_backend/pocket-ic
+**/pocket-ic
+
+# Generated Models
+**/*.onnx
