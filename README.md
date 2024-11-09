@@ -4,60 +4,48 @@ Welcome to this tutorial that is for experienced developers looking how to deplo
 
 On this challenge, the main goals are:
 
-// TODO: update from here
-
 - to introduce to IC, in case you don't know yet, showcasing great examples of what is already possible
-- to help you getting started in a quick but still effective way
+- to help you understand the process of building a model and deploying it on chain
 - to hopefully convince you the IC stack and ecosystem is a great place to have a Dev career or co-found a startup.
 
 ## Challenge Overview
 
-This challenge will be in Motoko. We have prepared a Codespace for you, so you don't waste time on local setup and can go directly to the fun part, coding! ⌨️
+This challenge will be in Rust. We have prepared a Codespace for you, so you don't waste time on local setup and can go directly to the fun part, deploying a model on chain and coding! ⌨️
 
-In the basic challenge you will:
+In this advanced challenge you will:
 
-- Develop a canister (backend) that logs in with Gmail, with an ICP wallet provider called NFID.
-- Work on the backend, understanding data structures, packages, stable/dynamic memory, etc.
-- You will allow to setup a user profile and safely store user records (like the results of the AI Model).
+- Understand the "Python to Rust" toolkit for AI models.
+- Build, upload the model to a canister and intereact with it.
+- Build a tokenizers tool and a UI that allows humans to interact with GPT2.
 
-In the intermediate challenge you will:
-
-- Connect that backend to the API of HuggingFace, using IC HTTP Outcalls.
-- We will use a basic one, phrase sentiment analysis model.
-- You will need to parse the response and more clearly show the model result.
-- Then on the frontend you need to improve it and allow the user to interact with the new AI / API features you just added.
+The idea is to be very open (since it's an Advanced Challenge), giving you more room on how to implement it.
 
 ## Submission Details & Requirements
 
-For getting the 50 (only basic) or the 100 (basic + intermediate) ckUSDT prize, you will need to:
+For the 150 (advanced challenge) ckUSDT prize, you will need to:
 
-- Join the Taikai platform (where we publickly handle all the submissions): https://taikai.network/icp-portugal/hackathons/ICP-AI-HACKERHOUSE
+- Join the Taikai platform (where we publicly handle all the submissions): https://taikai.network/icp-portugal/hackathons/ICP-AI-HACKERHOUSE
 - Create a project, following the instructions on the video, namely:
-  - Title saying "Easy Challenge - Your Name" or "Intermediate Challenge" if it's the case.
+  - Title saying "Advanced Challenge - Your Name"
   - Add your github that allows to see the code finishing the challenge.
-  - A video recording of the Candid UI (Basic Challenge) or the Frontend (Intermediate Challenge) showing the dApp behaving as expected on the challenge.
+  - A video recording of the Candid UI (if you only implemented backend) or the Frontend (in case you implemented it) showing the dApp allowing a human to interact with the GPT2 inference method.
 
 ## Tutorial Videos
 
-Tutorial Videos explaining and walking through each of the methods / behaviour expected.
+Tutorial Videos explaining and walking through the different parts of the challenge.
 Note: Feel free to listen at 1.2x speed 😛
 
 IC Overview (recorded on a recent workshop with CS Students):
 
 - https://www.youtube.com/watch?v=wyHAh9i1cFI
 
-Basic:
+Advanced:
 
 - Github and Codespace setup
-- Overview of code structure
-- Login and user registration / update
-- Store more complex data, like previous model results associated with an User.
+- Overview of the Toolkit and how it's structured in this repo
 
-Intermediate:
-
-- HTTP Outcall and Hugging Face API overview
-- Call and parse the data, and select best result
-- Render and improve frontend to enable user to better interact with the features you built.
+- Deploy GPT2 100% on chain
+- Develop your Tokenizers solution (GPT-2's Byte Pair Encoding (BPE) tokenizer)
 
 # General Instructions / Commands
 
