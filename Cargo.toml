@@ -2,3 +2,4 @@
 members = ["src/icp_hello_world_rust_backend","src/icp_gpt2"]
 
 resolver = "2"
+

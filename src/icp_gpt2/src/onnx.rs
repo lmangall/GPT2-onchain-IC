@@ -1,19 +1,19 @@
 use std::cell::RefCell;
 
-use prost::Message;
-use tract_onnx::prelude::*;
-use tract_ndarray::{ArrayD, IxDyn};
 use crate::storage;
 use crate::MODEL_FILE;
 use anyhow::anyhow;
+use prost::Message;
+use tract_ndarray::{ArrayD, IxDyn};
+use tract_onnx::prelude::*;
+
+use crate::tokenizer;
 
 type Model = SimplePlan<TypedFact, Box<dyn TypedOp>, Graph<TypedFact, Box<dyn TypedOp>>>;
 
 thread_local! {
     static MODEL: RefCell<Option<Model>> = RefCell::new(None);
 }
-
-
 
 /// Constructs a runnable model from the serialized ONNX model.
 pub fn setup() -> TractResult<()> {
@@ -35,6 +35,9 @@ pub fn setup() -> TractResult<()> {
         *m.borrow_mut() = Some(model);
     });
 
+    // Add tokenizer setup
+    tokenizer::setup_tokenizer().map_err(|e| anyhow!("Failed to setup tokenizer: {}", e))?;
+
     Ok(())
 }
 
@@ -48,12 +51,28 @@ fn model_inference(max_tokens: u8, numbers: Vec<i64>) -> Result<Vec<i64>, String
     create_tensor_and_run_model(max_tokens, numbers).map_err(|err| err.to_string())
 }
 
+#[ic_cdk::update]
+fn generate_text(prompt: String, max_tokens: u8) -> Result<String, String> {
+    // Encode the input text to tokens
+    let input_tokens =
+        tokenizer::encode(&prompt).map_err(|e| format!("Failed to encode text: {}", e))?;
+
+    // Run the model inference
+    let output_tokens = create_tensor_and_run_model(max_tokens, input_tokens)
+        .map_err(|e| format!("Failed to run model: {}", e))?;
+
+    // Decode the output tokens back to text
+    tokenizer::decode(&output_tokens).map_err(|e| format!("Failed to decode tokens: {}", e))
+}
 
 /// Runs the model on the given token_ids and returns generated tokens.
-pub fn create_tensor_and_run_model(max_tokens: u8, token_ids: Vec<i64>) -> Result<Vec<i64>, anyhow::Error> {
+pub fn create_tensor_and_run_model(
+    max_tokens: u8,
+    token_ids: Vec<i64>,
+) -> Result<Vec<i64>, anyhow::Error> {
     MODEL.with(|model| {
-        let model = model.borrow();  // Borrow the contents of the RefCell
-        let model = model.as_ref().unwrap();  // Ensure the model is initialized
+        let model = model.borrow(); // Borrow the contents of the RefCell
+        let model = model.as_ref().unwrap(); // Ensure the model is initialized
 
         let mut past_key_values_tensor = create_empty_past_key_values(24, 1, 12, 0, 64)?;
         //let mut past_key_values_tensor = create_empty_past_key_values(0, 1, 0, 0, 0)?;
@@ -74,7 +93,11 @@ pub fn create_tensor_and_run_model(max_tokens: u8, token_ids: Vec<i64>) -> Resul
             let input_ids_tensor = create_tensor_i64(&input_ids)?;
             let attention_mask_tensor = create_tensor_i8(&attention_mask)?;
 
-            let inputs: TVec<TValue> = tvec!(input_ids_tensor.into(), attention_mask_tensor.into(), past_key_values_tensor.clone().into());
+            let inputs: TVec<TValue> = tvec!(
+                input_ids_tensor.into(),
+                attention_mask_tensor.into(),
+                past_key_values_tensor.clone().into()
+            );
             /*
             for (i, input) in inputs.iter().enumerate() {
                 ic_cdk::println!("Input {}: {:?}", i, input.shape());
@@ -92,7 +115,9 @@ pub fn create_tensor_and_run_model(max_tokens: u8, token_ids: Vec<i64>) -> Resul
             past_key_values_tensor = outputs[1].clone().into_tensor();
 
             ic_cdk::println!("Next token: {}", next_token);
-            if next_token == 50256_i64 { break; }
+            if next_token == 50256_i64 {
+                break;
+            }
 
             input_ids = vec![next_token];
             attention_mask.push(1);
@@ -120,12 +145,18 @@ fn create_tensor_i8(data: &[i8]) -> TractResult<Tensor> {
     Ok(array.into_tensor())
 }
 
-
-fn create_empty_past_key_values(num_layers: usize, batch_size: usize, num_heads: usize, seq_length: usize, head_dim: usize) -> TractResult<Tensor> {
+fn create_empty_past_key_values(
+    num_layers: usize,
+    batch_size: usize,
+    num_heads: usize,
+    seq_length: usize,
+    head_dim: usize,
+) -> TractResult<Tensor> {
     let shape = [num_layers, batch_size, num_heads, seq_length, head_dim];
-    let array = tract_ndarray::Array::from_shape_vec(IxDyn(&shape), vec![0.0_f32; num_layers * batch_size * num_heads * seq_length * head_dim])
-        .map_err(|_| anyhow::anyhow!("Failed to create tensor from shape and values"))?;
+    let array = tract_ndarray::Array::from_shape_vec(
+        IxDyn(&shape),
+        vec![0.0_f32; num_layers * batch_size * num_heads * seq_length * head_dim],
+    )
+    .map_err(|_| anyhow::anyhow!("Failed to create tensor from shape and values"))?;
     Ok(array.into_tensor())
 }
-
-

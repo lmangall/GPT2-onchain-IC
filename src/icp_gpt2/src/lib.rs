@@ -1,12 +1,16 @@
 //use ic_stable_structures::memory_manager::{MemoryId, MemoryManager, VirtualMemory};
 //use ic_stable_structures::{DefaultMemoryImpl, StableBTreeMap}; //, Storable};
-use ic_stable_structures::{memory_manager::{MemoryId, MemoryManager}, DefaultMemoryImpl};
+use ic_stable_structures::{
+    memory_manager::{MemoryId, MemoryManager},
+    DefaultMemoryImpl,
+};
 
 use std::cell::RefCell;
 
 //type Memory = VirtualMemory<DefaultMemoryImpl>;
 mod onnx;
 mod storage;
+mod tokenizer;
 
 thread_local! {
     pub static MEMORY_MANAGER: RefCell<MemoryManager<DefaultMemoryImpl>> =
@@ -50,10 +54,7 @@ fn post_upgrade() {
     //});
 }
 
-
 //////////////////////////////////////////////////////////////////////
-
-
 
 const MODEL_FILE: &str = "onnx_model.onnx";
 
@@ -70,8 +71,6 @@ fn clear_model_bytes() {
 fn append_model_bytes(bytes: Vec<u8>) {
     storage::append_bytes(MODEL_FILE, bytes);
 }
-
-
 
 /// Returns the length of the model bytes.
 #[ic_cdk::query]
