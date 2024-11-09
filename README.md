@@ -41,11 +41,13 @@ IC Overview (recorded on a recent workshop with CS Students):
 
 Advanced:
 
+- Intro to Advanced Challenge and Submission (https://www.loom.com/share/750eda01b36a4b3998b75973f7830e0d)
+
 - Github and Codespace setup
 - Overview of the Toolkit and how it's structured in this repo
+- Deploy GPT2 100% on chain (https://www.loom.com/share/141610561e9549748199dac2f6f9ac5a)
 
-- Deploy GPT2 100% on chain
-- Develop your Tokenizers solution (GPT-2's Byte Pair Encoding (BPE) tokenizer)
+- Develop your Tokenizers solution (GPT-2's Byte Pair Encoding (BPE) tokenizer) (explained on Intro Video)
 
 # General Instructions / Commands
 
@@ -123,6 +125,9 @@ First, ensure you have Rust installed. We will then set the default toolchain to
 
    # In another tab
    dfx deploy
+
+   # you can check the right links, by running script
+   ./scripts/canister_urls.py
    ```
 
 3. Upload model
