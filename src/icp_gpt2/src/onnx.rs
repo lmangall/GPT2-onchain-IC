@@ -7,6 +7,7 @@ use prost::Message;
 use tract_ndarray::{ArrayD, IxDyn};
 use tract_onnx::prelude::*;
 
+use crate::setup_tokenizer;
 use crate::tokenizer;
 
 type Model = SimplePlan<TypedFact, Box<dyn TypedOp>, Graph<TypedFact, Box<dyn TypedOp>>>;
@@ -36,7 +37,7 @@ pub fn setup() -> TractResult<()> {
     });
 
     // Add tokenizer setup
-    tokenizer::setup_tokenizer().map_err(|e| anyhow!("Failed to setup tokenizer: {}", e))?;
+    setup_tokenizer().ok_or_else(|| anyhow!("Failed to setup tokenizer"))?;
 
     Ok(())
 }

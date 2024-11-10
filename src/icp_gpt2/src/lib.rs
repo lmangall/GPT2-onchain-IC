@@ -21,6 +21,8 @@ thread_local! {
     //        MEMORY_MANAGER.with(|m| m.borrow().get(MemoryId::new(1))),
     //    )
     //);
+
+    static TOKENIZER_BYTES: RefCell<Vec<u8>> = RefCell::new(Vec::new());
 }
 
 #[ic_cdk::init]
@@ -76,4 +78,20 @@ fn append_model_bytes(bytes: Vec<u8>) {
 #[ic_cdk::query]
 fn model_bytes_length() -> usize {
     storage::bytes_length(MODEL_FILE)
+}
+
+#[ic_cdk::update]
+fn append_tokenizer_bytes(bytes: Vec<u8>) {
+    TOKENIZER_BYTES.with(|b| {
+        b.borrow_mut().extend(bytes);
+    });
+}
+
+#[ic_cdk::update]
+fn setup_tokenizer() -> Option<String> {
+    let bytes = TOKENIZER_BYTES.with(|b| b.borrow().clone());
+    match tokenizer::setup_tokenizer_from_bytes(&bytes) {
+        Ok(_) => None,
+        Err(e) => Some(format!("Failed to setup tokenizer: {}", e)),
+    }
 }

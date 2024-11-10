@@ -9,6 +9,8 @@ type TextGenerationResult = variant {
 };
 
 service : {
+    "append_tokenizer_bytes": (vec nat8) -> ();
+    "setup_tokenizer": () -> (opt text);
     "model_inference": (nat8, vec int64) -> (ModelInferenceResult);
     "setup_model": () -> (opt text);
     "generate_text": (text, nat8) -> (TextGenerationResult);

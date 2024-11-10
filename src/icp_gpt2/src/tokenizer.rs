@@ -6,9 +6,9 @@ thread_local! {
     static TOKENIZER: RefCell<Option<Tokenizer>> = RefCell::new(None);
 }
 
-pub fn setup_tokenizer() -> Result<()> {
-    let tokenizer = Tokenizer::from_file("tokenizer.json")
-        .map_err(|e| anyhow!("Failed to load tokenizer: {}", e))?;
+pub fn setup_tokenizer_from_bytes(bytes: &[u8]) -> Result<()> {
+    let tokenizer =
+        Tokenizer::from_bytes(bytes).map_err(|e| anyhow!("Failed to create tokenizer: {}", e))?;
 
     TOKENIZER.with(|t| {
         *t.borrow_mut() = Some(tokenizer);
